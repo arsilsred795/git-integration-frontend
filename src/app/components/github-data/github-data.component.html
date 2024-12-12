@@ -1,0 +1,37 @@
+<div class="container">
+    <mat-toolbar>
+      <span>GitHub Data Viewer</span>
+    </mat-toolbar>
+  
+    <div class="controls">
+      <mat-form-field appearance="outline">
+        <mat-label>Active Integrations</mat-label>
+        <mat-select [(value)]="selectedIntegration">
+          <mat-option value="github">GitHub</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Entity</mat-label>
+        <mat-select [(value)]="selectedEntity" (selectionChange)="fetchEntityData($event.value)">
+          <mat-option *ngFor="let entity of entities" [value]="entity">
+            {{ entity }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+    </div>
+    <div *ngIf="isAgGridLoaded">
+    <ag-grid-angular
+      class="ag-theme-alpine"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [pagination]="true"
+      [paginationPageSize]="50"
+      [defaultColDef]="defaultColDef"
+      style="height: 400px; width: 100%;"
+    >
+    </ag-grid-angular>
+</div>
+  </div>
+  
