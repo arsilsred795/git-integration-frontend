@@ -21,8 +21,6 @@ export class IntegrationComponent implements OnInit {
   ngOnInit() {
     // Retrieve the state passed via navigation
     this.userInfo = JSON.parse(localStorage.getItem("userInfo") ?? '{}');
-    console.log("user info",this.userInfo)
-    debugger
     if(JSON.stringify(this.userInfo) === '{}'){
       this.redirectToHome()
     }

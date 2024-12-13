@@ -1,37 +1,36 @@
 <mat-accordion>
     <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <div class="header-container">
-          <!-- GitHub logo on the left -->
-          <div class="logo-container">
-            <img src="assets/github-logo.png" alt="GitHub Logo" class="github-logo"/>
-            <mat-icon  class="status-icon green">check_circle</mat-icon>
-  
-  
-            <!-- Clock icon -->
-            <mat-icon class="status-icon">access_time</mat-icon>
-          </div>
-  
-          <button mat-raised-button color="primary" (click)="viewDetail()">
-            View Details
-          </button>
+        <mat-expansion-panel-header>
+            <div class="header-container">
+                <!-- GitHub logo on the left -->
+                <div class="logo-container">
+                    <img src="assets/github-logo.png" alt="GitHub Logo" class="github-logo" />
+                    <mat-icon class="status-icon green">check_circle</mat-icon>
 
-          <!-- Information on the right side (username and last synced) -->
-          <div class="info-container">
-            <div class="username">{{this.userInfo?.username}}</div>
-            <div class="last-synced">Last Synced: {{this.userInfo?.connectedAt | date: 'yyyy-MM-dd HH:mm:ss' }}</div>
-          </div>
+
+                    <!-- Clock icon -->
+                    <mat-icon class="status-icon">access_time</mat-icon>
+                </div>
+
+                <!-- Information on the right side (username and last synced) -->
+                <div class="info-container">
+                    <div class="username">{{this.userInfo?.username}}</div>
+                    <div class="last-synced">Last Synced: {{this.userInfo?.connectedAt | date: 'yyyy-MM-dd HH:mm:ss' }}
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel-header>
+
+        <div *ngIf="integrationStatus">
+            <p>{{ integrationStatus.message }}</p>
         </div>
-      </mat-expansion-panel-header>
-  
-      <div *ngIf="integrationStatus">
-        <p>{{ integrationStatus.message }}</p>
-      </div>
-  
-      <!-- Remove button inside the expansion panel -->
-      <div class="button-container">
-        <button mat-button (click)="removeIntegration()">Remove Integration</button>
-      </div>
+
+        <!-- Remove button inside the expansion panel -->
+        <div class="button-container">
+            <button mat-raised-button (click)="removeIntegration()">Remove Integration</button>
+            <button mat-raised-button color="primary" (click)="viewDetail()">
+                View Details
+            </button>
+        </div>
     </mat-expansion-panel>
-  </mat-accordion>
-  
+</mat-accordion>

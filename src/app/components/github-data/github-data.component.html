@@ -1,37 +1,69 @@
 <div class="container">
-    <mat-toolbar>
-      <span>GitHub Data Viewer</span>
-    </mat-toolbar>
-  
+    <div style="display: flex;">
+        <mat-toolbar style="background-color: white;">
+            <img src="assets/github-logo.png" alt="GitHub Logo" class="github-logo" />
+            <span>GitHub Data Viewer</span>
+        </mat-toolbar>
+        <button mat-raised-button (click)="removeIntegration()">Remove Integration</button>
+    </div>
+
     <div class="controls">
-      <mat-form-field appearance="outline">
-        <mat-label>Active Integrations</mat-label>
-        <mat-select [(value)]="selectedIntegration">
-          <mat-option value="github">GitHub</mat-option>
-        </mat-select>
-      </mat-form-field>
-  
-      <mat-form-field appearance="outline">
-        <mat-label>Entity</mat-label>
-        <mat-select [(value)]="selectedEntity" (selectionChange)="fetchEntityData($event.value)">
-          <mat-option *ngFor="let entity of entities" [value]="entity">
-            {{ entity }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-  
+        <mat-form-field appearance="outline">
+            <mat-label>Active Integrations</mat-label>
+            <mat-select [(value)]="selectedIntegration" (selectionChange)="fetchRepos()">
+                <mat-option *ngFor="let org of organizations" [value]="org.login">{{org?.login}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Repos</mat-label>
+            <mat-select [(value)]="selectedRepo" (selectionChange)="fetchEntity()">
+                <mat-option *ngFor="let repo of repos" [value]="repo.name">
+                    {{ repo.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Entity</mat-label>
+            <mat-select [(value)]="selectedEntity" (selectionChange)="fetchEntity()">
+                <mat-option value='commits'>
+                    Commits
+                </mat-option>
+                <mat-option value='pulls'>
+                    Pulls
+                </mat-option>
+                <mat-option value='issues'>
+                    Issues
+                </mat-option>
+                <mat-option value='changelogs'>
+                    Changelogs
+                </mat-option>
+                <mat-option value='users'>
+                    users
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search</mat-label>
+            <input matInput id="filter-text-box" (input)="onSearch()" />
+        </mat-form-field>
     </div>
     <div *ngIf="isAgGridLoaded">
-    <ag-grid-angular
-      class="ag-theme-alpine"
-      [rowData]="rowData"
-      [columnDefs]="columnDefs"
-      [pagination]="true"
-      [paginationPageSize]="50"
-      [defaultColDef]="defaultColDef"
-      style="height: 400px; width: 100%;"
-    >
-    </ag-grid-angular>
+        <ag-grid-angular
+        #agGrid
+        class="ag-theme-alpine"
+        [rowData]="rowData"
+        [modules]="modules"
+        [columnDefs]="this.columnDefs"
+        [pagination]="true"
+        [paginationPageSize]="10"
+        [defaultColDef]="defaultColDef"
+        (gridReady)="onGridReady($event)"
+       
+        [quickFilterText]="searchText"
+        style="height: 600px; width: 100%;"
+      ></ag-grid-angular>
+      
+    </div>
 </div>
-  </div>
-  
